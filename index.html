@@ -23,6 +23,8 @@
     --text-faint: #595862;
     --accent: #4ade80;
     --accent-dim: #4ade8028;
+    --stretch: #60a5fa;
+    --stretch-dim: #60a5fa22;
     --success: #6ee787;
     --success-dim: #6ee78718;
     --serif: 'Fraunces', Georgia, serif;
@@ -69,11 +71,32 @@
   .progress-bar { flex: 1; height: 4px; background: var(--bg-card); border-radius: 2px; overflow: hidden; position: relative; }
   .progress-fill { position: absolute; inset: 0; width: 0%; background: var(--accent); transition: width 0.3s ease-out; border-radius: 2px; }
 
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 24px 0 14px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--stretch);
+  }
+  .section-divider::before, .section-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
   .exercise { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 18px 16px; margin-bottom: 12px; transition: border-color 0.2s; }
   .exercise.done { border-color: var(--success-dim); background: linear-gradient(180deg, var(--success-dim) 0%, var(--bg-card) 100%); }
+  .exercise.stretch { border-color: rgba(96, 165, 250, 0.2); }
+  .exercise.stretch.done { border-color: var(--success-dim); }
   .exercise-num { font-family: var(--mono); font-size: 10px; color: var(--text-faint); letter-spacing: 0.1em; margin-bottom: 4px; }
   .exercise-name { font-family: var(--serif); font-size: 20px; font-weight: 500; line-height: 1.25; letter-spacing: -0.01em; margin: 0 0 4px; font-variation-settings: 'opsz' 72; }
   .exercise-muscle { display: inline-block; font-family: var(--mono); font-size: 10px; color: var(--accent); background: var(--accent-dim); padding: 2px 7px; border-radius: 4px; margin-bottom: 12px; letter-spacing: 0.05em; }
+  .exercise.stretch .exercise-muscle { color: var(--stretch); background: var(--stretch-dim); }
 
   .specs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
   .spec { background: var(--bg-elevated); padding: 10px 12px; border-radius: 8px; }
@@ -81,6 +104,7 @@
   .spec-value { font-family: var(--mono); font-size: 14px; color: var(--text); font-weight: 600; }
 
   .variation-row { background: var(--bg-elevated); padding: 12px; border-radius: 8px; margin-bottom: 14px; border-left: 3px solid var(--accent); }
+  .exercise.stretch .variation-row { border-left-color: var(--stretch); }
   .variation-label { font-family: var(--mono); font-size: 9px; color: var(--text-faint); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
   .variation-list { font-family: var(--sans); font-size: 12px; line-height: 1.6; color: var(--text-dim); }
   .variation-list .level { color: var(--text); font-weight: 600; }
@@ -99,6 +123,7 @@
   .notes { font-family: var(--sans); font-size: 12px; line-height: 1.5; color: var(--text-dim); margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); font-style: italic; }
 
   .info-block { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin-bottom: 12px; }
+  .info-block.highlight { border-color: var(--accent-dim); }
   .info-title { font-family: var(--serif); font-size: 18px; font-weight: 600; letter-spacing: -0.01em; margin: 0 0 10px; }
   .info-title em { color: var(--accent); font-style: italic; }
   .info-block ul { padding-left: 18px; margin: 8px 0; font-size: 14px; line-height: 1.7; color: var(--text-dim); }
@@ -106,6 +131,24 @@
   .info-block li strong { color: var(--text); font-weight: 600; }
   .info-block p { font-size: 14px; line-height: 1.65; color: var(--text-dim); margin: 8px 0; }
   .info-block p strong { color: var(--text); font-weight: 600; }
+
+  .timeline { margin: 8px 0; }
+  .timeline-item { display: flex; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--border); align-items: flex-start; }
+  .timeline-item:last-child { border-bottom: none; }
+  .timeline-time { font-family: var(--mono); font-size: 12px; color: var(--accent); font-weight: 600; flex-shrink: 0; width: 70px; }
+  .timeline-content { font-size: 13px; color: var(--text-dim); flex: 1; }
+  .timeline-content strong { color: var(--text); display: block; margin-bottom: 2px; }
+  .timeline-content .meal-detail { font-size: 12px; line-height: 1.5; color: var(--text-dim); margin-top: 4px; }
+  .timeline-item.star .timeline-time { color: #fbbf24; }
+  .timeline-item.workout .timeline-time { color: #f87171; }
+
+  .meal-block { background: var(--bg-elevated); padding: 12px; border-radius: 8px; margin-bottom: 10px; border-left: 3px solid var(--accent); }
+  .meal-block.star { border-left-color: #fbbf24; }
+  .meal-block h4 { font-family: var(--serif); font-size: 15px; margin: 0 0 4px; color: var(--text); font-weight: 600; }
+  .meal-block .meal-time { font-family: var(--mono); font-size: 11px; color: var(--text-faint); margin-bottom: 8px; }
+  .meal-block ul { margin: 4px 0 0; padding-left: 18px; font-size: 13px; }
+  .meal-block ul li { margin-bottom: 2px; }
+  .meal-block .meal-cal { font-family: var(--mono); font-size: 10px; color: var(--accent); margin-top: 6px; letter-spacing: 0.05em; }
 
   .footer { padding: 24px 20px 32px; display: flex; gap: 10px; border-top: 1px solid var(--border); margin-top: 30px; }
   .btn { flex: 1; padding: 14px; background: var(--bg-card); border: 1px solid var(--border-strong); border-radius: 10px; color: var(--text-dim); font-family: var(--mono); font-size: 12px; font-weight: 500; cursor: pointer; letter-spacing: 0.05em; transition: all 0.15s; }
@@ -171,6 +214,30 @@ const PLAN = {
         sets: 3, reps: '45-60秒', rest: '45秒', 
         notes: '收紧腹臀，身体一直线，别塌腰' 
       },
+      {
+        name: '门框胸部拉伸',
+        muscle: '拉伸 · 胸部',
+        isStretch: true,
+        variation: '找一面墙或门框，单臂屈肘呈 90 度抵住边框，身体前转远离手臂，胸部应有明显拉伸感',
+        sets: 2, reps: '30秒 / 边', rest: '—',
+        notes: '★ 练完胸最重要的拉伸，长期不拉胸会含胸驼背'
+      },
+      {
+        name: '三头肌头顶拉伸',
+        muscle: '拉伸 · 三头',
+        isStretch: true,
+        variation: '一只手举过头顶屈肘，让手摸到对侧肩胛骨；另一只手压住屈肘的肘部往后/往下拉',
+        sets: 2, reps: '30秒 / 边', rest: '—',
+        notes: '感觉手臂后侧（三头）有拉伸感'
+      },
+      {
+        name: '三角肌交叉拉伸',
+        muscle: '拉伸 · 肩部',
+        isStretch: true,
+        variation: '一只手水平横过胸前，另一只手压住肘部往身体方向拉，肩部应有拉伸感',
+        sets: 2, reps: '30秒 / 边', rest: '—',
+        notes: '肩部和后背交界处应有明显拉伸'
+      },
     ]
   },
   day2: {
@@ -211,6 +278,30 @@ const PLAN = {
         variation: '<span class="level">L1</span> 双手悬挂 30 秒 <span class="arrow">→</span> <span class="level">L2</span> 双手悬挂 45-60 秒 <span class="arrow">→</span> <span class="level">L3</span> 单手悬挂',
         sets: 3, reps: '30-45秒', rest: '60秒', 
         notes: '撑到掉为止。握力是引体进阶的瓶颈，要专项练' 
+      },
+      {
+        name: '婴儿式',
+        muscle: '拉伸 · 背阔',
+        isStretch: true,
+        variation: '跪坐在地上，前额触地，双手向前伸到最远，手指尖向前发力，感受整个背阔肌的延展',
+        sets: 2, reps: '45秒', rest: '—',
+        notes: '★ 练完背最重要的拉伸，整个背部能放松'
+      },
+      {
+        name: '二头肌墙壁拉伸',
+        muscle: '拉伸 · 二头',
+        isStretch: true,
+        variation: '侧身贴墙站立，手掌贴墙（手指朝后），慢慢旋转身体远离墙壁，二头有强烈拉伸',
+        sets: 2, reps: '30秒 / 边', rest: '—',
+        notes: '感觉前臂内侧到二头有拉伸感'
+      },
+      {
+        name: '颈部侧拉伸',
+        muscle: '拉伸 · 颈肩',
+        isStretch: true,
+        variation: '右手绕过头顶轻拉左侧头部，让左耳靠近右肩，感受左侧颈部到肩的拉伸',
+        sets: 1, reps: '30秒 / 边', rest: '—',
+        notes: '引体后颈肩容易紧张，必拉'
       },
     ]
   },
@@ -260,6 +351,38 @@ const PLAN = {
         sets: 3, reps: '10-15', rest: '60秒', 
         notes: '控制为主，别甩' 
       },
+      {
+        name: '站姿股四头肌拉伸',
+        muscle: '拉伸 · 股四头',
+        isStretch: true,
+        variation: '单腿站立（一只手扶墙保持平衡），另一只手抓住同侧脚踝往臀部方向拉，大腿前侧有拉伸感',
+        sets: 2, reps: '30秒 / 边', rest: '—',
+        notes: '膝盖朝下指向地面，髋部前推效果更好'
+      },
+      {
+        name: '坐姿前屈',
+        muscle: '拉伸 · 股二头',
+        isStretch: true,
+        variation: '坐地上双腿伸直，腰背直立，从髋部往前折叠身体，双手伸向脚趾。大腿后侧应有强烈拉伸',
+        sets: 2, reps: '45秒', rest: '—',
+        notes: '★ 不能弯腰驼背，从髋关节折叠'
+      },
+      {
+        name: '鸽子式',
+        muscle: '拉伸 · 臀部',
+        isStretch: true,
+        variation: '前腿膝盖弯曲，小腿横放在身前贴地；后腿向后伸直贴地；身体微前倾，臀部有强烈拉伸',
+        sets: 2, reps: '45秒 / 边', rest: '—',
+        notes: '★ 久坐 + 练腿党必做，臀部紧张会引起腰痛'
+      },
+      {
+        name: '小腿墙壁拉伸',
+        muscle: '拉伸 · 小腿',
+        isStretch: true,
+        variation: '面墙站立，双手撑墙，单腿往后退一大步，后腿膝盖伸直、脚跟踩地，小腿有拉伸感',
+        sets: 2, reps: '30秒 / 边', rest: '—',
+        notes: '后腿膝盖不能弯，脚跟必须踩实'
+      },
     ]
   },
   day4: {
@@ -308,11 +431,188 @@ const PLAN = {
         sets: 3, reps: '10-15', rest: '60秒', 
         notes: '收尾，控制为主' 
       },
+      {
+        name: '死悬挂（脊柱减压）',
+        muscle: '拉伸 · 全身',
+        isStretch: true,
+        variation: '双手抓单杠，完全放松挂着，让肩部和脊柱被自重拉伸',
+        sets: 2, reps: '30秒', rest: '—',
+        notes: '★ 综合训练后必做。脊柱被自重拉直，对腰特别好'
+      },
+      {
+        name: '门框胸部拉伸',
+        muscle: '拉伸 · 胸部',
+        isStretch: true,
+        variation: '找一面墙或门框，单臂屈肘呈 90 度抵住边框，身体前转远离手臂',
+        sets: 2, reps: '30秒 / 边', rest: '—',
+        notes: '今天有胸的训练，必拉'
+      },
+      {
+        name: '站姿腿后侧拉伸',
+        muscle: '拉伸 · 全身链',
+        isStretch: true,
+        variation: '双腿站立，从髋部往前折叠身体，双手尽量摸地或抓脚踝。腘绳肌、小腿、背都拉到',
+        sets: 1, reps: '45秒', rest: '—',
+        notes: '一个动作拉伸整个后链'
+      },
     ]
   }
 };
 
 const PRINCIPLES_HTML = `
+  <div class="info-block highlight">
+    <h2 class="info-title">你的<em>作息时间表</em></h2>
+    <p style="font-size:12px;color:var(--text-faint);margin-top:0">基于晚班作息（15:00 上班 / 24:00 下班 / 3-4 点睡 / 13-14 点起床）定制</p>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-time">13:30</div>
+        <div class="timeline-content"><strong>起床</strong></div>
+      </div>
+      <div class="timeline-item star">
+        <div class="timeline-time">14:00</div>
+        <div class="timeline-content"><strong>第一餐</strong>（相当于早餐）</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">15:00</div>
+        <div class="timeline-content"><strong>上班</strong></div>
+      </div>
+      <div class="timeline-item star">
+        <div class="timeline-time">17:30</div>
+        <div class="timeline-content"><strong>工作餐</strong>（训练前主餐）</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">18:30</div>
+        <div class="timeline-content"><strong>训练前加餐</strong>（可选 · 香蕉）</div>
+      </div>
+      <div class="timeline-item workout">
+        <div class="timeline-time">19:00-21:00</div>
+        <div class="timeline-content"><strong>训练时段</strong>（公园单双杠）</div>
+      </div>
+      <div class="timeline-item star">
+        <div class="timeline-time">21:15</div>
+        <div class="timeline-content"><strong>训练后蛋白粉</strong> ⚡ 必喝</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">24:00</div>
+        <div class="timeline-content"><strong>下班</strong></div>
+      </div>
+      <div class="timeline-item star">
+        <div class="timeline-time">00:30</div>
+        <div class="timeline-content"><strong>回家正餐</strong>（晚餐）</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">02:30</div>
+        <div class="timeline-content"><strong>睡前小食</strong>（可选）</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">03:30</div>
+        <div class="timeline-content"><strong>睡觉</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-block">
+    <h2 class="info-title">每餐<em>吃什么</em></h2>
+    
+    <div class="meal-block">
+      <h4>🌅 第一餐 · 起床后</h4>
+      <div class="meal-time">14:00 左右</div>
+      <ul>
+        <li>2-3 个全蛋（煮 / 炒 / 煎）</li>
+        <li>燕麦 60g + 牛奶 250ml</li>
+        <li>1 个水果（香蕉 / 苹果）</li>
+      </ul>
+      <div class="meal-cal">约 500 kcal · 35g 蛋白</div>
+    </div>
+
+    <div class="meal-block star">
+      <h4>🍱 工作餐 · 训练前主餐</h4>
+      <div class="meal-time">17:30 左右 · 距训练 1.5 小时</div>
+      <ul>
+        <li>主食：米饭 / 全麦面 150g（熟重）</li>
+        <li>蛋白：鸡胸 / 牛肉 / 鱼肉 150g</li>
+        <li>蔬菜 200g+（西兰花、青菜等）</li>
+        <li>1 勺好油（橄榄油 / 鱼油）</li>
+      </ul>
+      <div class="meal-cal">约 700 kcal · 45g 蛋白</div>
+      <p style="font-size:11px;color:var(--text-faint);margin:6px 0 0">⚠️ 训练前不能太油腻或太多，否则训练时反胃</p>
+    </div>
+
+    <div class="meal-block">
+      <h4>🍌 训练前加餐（可选）</h4>
+      <div class="meal-time">18:30 · 训练前 30 分钟</div>
+      <ul>
+        <li>1 根香蕉 或 1 杯黑咖啡</li>
+      </ul>
+      <div class="meal-cal">如果工作餐吃饱了，可不加</div>
+    </div>
+
+    <div class="meal-block star">
+      <h4>⚡ 训练后立即</h4>
+      <div class="meal-time">21:15 · 训练后 15 分钟内</div>
+      <ul>
+        <li><strong>1 勺分离乳清蛋白粉 + 水 或 牛奶</strong></li>
+        <li>1 根香蕉（补糖原）</li>
+      </ul>
+      <div class="meal-cal">约 200 kcal · 25-30g 蛋白 ⚡ 黄金窗口</div>
+    </div>
+
+    <div class="meal-block star">
+      <h4>🏠 晚餐 · 回家正餐</h4>
+      <div class="meal-time">00:30-01:00 · 下班回家后</div>
+      <ul>
+        <li>主食：杂粮饭 / 全麦面 100-150g</li>
+        <li>蛋白：瘦肉 / 鱼肉 / 鸡蛋 150g</li>
+        <li>蔬菜 200g+</li>
+      </ul>
+      <div class="meal-cal">约 700 kcal · 40g 蛋白</div>
+      <p style="font-size:11px;color:var(--text-faint);margin:6px 0 0">⚠️ 1:00 前吃完，离睡觉 2 小时以上</p>
+    </div>
+
+    <div class="meal-block">
+      <h4>🥛 睡前小食（可选）</h4>
+      <div class="meal-time">02:30 · 睡前 1 小时</div>
+      <ul>
+        <li>1 杯纯牛奶 或 希腊酸奶</li>
+        <li>或 2 个煮鸡蛋</li>
+      </ul>
+      <div class="meal-cal">约 200 kcal · 20g 慢蛋白 · 助睡眠和夜间恢复</div>
+    </div>
+
+    <p style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-size:13px"><strong>每日总计</strong>：约 2200-2400 kcal · 140-170g 蛋白质 ✓</p>
+  </div>
+
+  <div class="info-block">
+    <h2 class="info-title">夜班作息<em>小贴士</em></h2>
+    <ul>
+      <li><strong>18:00 后不喝咖啡</strong> — 半衰期 5-6 小时，3 点睡不着就是它的功劳</li>
+      <li><strong>训练后晚餐别太晚</strong> — 1 点前吃完，2 点后只吃流食小食</li>
+      <li><strong>睡眠总长保证 8 小时</strong> — 3:30 睡到 13:30，时长比时间点更重要</li>
+      <li><strong>起床后晒 15 分钟太阳</strong> — 调节生物钟，对抗夜班引起的褪黑素紊乱</li>
+      <li><strong>睡前 1 小时不看强光手机</strong> — 蓝光会打乱褪黑素分泌</li>
+      <li><strong>水分</strong>：上班时间至少喝 1.5L 水，训练时再喝 500ml</li>
+      <li><strong>训练后蛋白粉不可省</strong> — 你的训练到晚餐间隔 3 小时，必须补蛋白防止肌肉分解</li>
+    </ul>
+  </div>
+
+  <div class="info-block">
+    <h2 class="info-title">关于<em>拉伸</em></h2>
+    <p>每个训练日末尾都加了对应部位的拉伸。看到 <strong style="color:#60a5fa">蓝色「拉伸」标签</strong> 就是这部分。</p>
+    <p><strong>为什么必须拉伸</strong>：</p>
+    <ul>
+      <li>训练后肌肉处于紧张缩短状态，不拉伸会逐渐丧失柔韧性</li>
+      <li>长期不拉胸 → 含胸驼背；不拉腿 → 髋关节僵硬 → 引起腰痛</li>
+      <li>拉伸能加速恢复、减少酸痛、降低受伤风险</li>
+    </ul>
+    <p><strong>怎么拉</strong>：</p>
+    <ul>
+      <li>每个动作保持 <strong>30-45 秒</strong>，不要弹震</li>
+      <li>拉到"轻微不适但能忍受"的程度，不是疼痛</li>
+      <li>正常呼吸，吐气时尝试再深一点</li>
+      <li>切忌：练完直接走人不拉伸</li>
+    </ul>
+  </div>
+
   <div class="info-block">
     <h2 class="info-title">徒手训练<em>怎么进阶</em></h2>
     <p>没有"加重量"的概念 — 通过 <strong>更难的动作变式</strong> 来增加难度。每个动作都标了 L1 → L2 → L3 的难度递进。</p>
@@ -343,21 +643,11 @@ const PRINCIPLES_HTML = `
   </div>
 
   <div class="info-block">
-    <h2 class="info-title">饮食<em>速查</em></h2>
-    <ul>
-      <li><strong>总热量</strong>：2200-2400 kcal/天</li>
-      <li><strong>蛋白质</strong>：140-160g/天</li>
-      <li><strong>训练后</strong>：30 分钟内一勺分离乳清蛋白粉 + 水/牛奶</li>
-      <li><strong>每餐都要有蛋白</strong>：30-40g</li>
-      <li><strong>蔬菜管饱</strong>，少喝甜饮料</li>
-    </ul>
-  </div>
-
-  <div class="info-block">
     <h2 class="info-title">必须<em>做的事</em></h2>
     <ul>
       <li>训练前热身 <strong>5-8 分钟</strong>（关节绕环 + 几组俯卧撑预热）</li>
-      <li>每晚睡 <strong>7-8 小时</strong>（比饮食还重要）</li>
+      <li>训练后 <strong>必拉伸</strong>（已加入计划末尾，不要跳过）</li>
+      <li>每天睡足 <strong>8 小时</strong>（你的情况就是 3:30-13:30）</li>
       <li>每周固定时间称重 1 次</li>
       <li>每月拍照 1 次（镜子不会骗你）</li>
       <li>记录每次用的变式难度，进步看得见</li>
@@ -367,10 +657,9 @@ const PRINCIPLES_HTML = `
   <div class="info-block">
     <h2 class="info-title">公园训练<em>小贴士</em></h2>
     <ul>
-      <li><strong>找一个安静角落</strong>：免得引人围观影响节奏</li>
       <li><strong>带条毛巾</strong>：擦汗 / 垫平板支撑 / 包杠（如果杠太粗）</li>
       <li><strong>带瓶水</strong>：脱水会让你少做 30% 的次数</li>
-      <li><strong>避开正午</strong>：早上 7-9 点或傍晚 5-7 点最舒服</li>
+      <li><strong>避开 22:00 后</strong>：太晚扰民，公园也可能关灯</li>
       <li><strong>下雨天</strong>：可以转室内做俯卧撑/深蹲/平板，单双杠动作跳过即可，下次补</li>
     </ul>
   </div>
@@ -450,7 +739,7 @@ function render() {
     { key: 'day2', label: '拉', num: 'Day 2' },
     { key: 'day3', label: '腿', num: 'Day 3' },
     { key: 'day4', label: '综合', num: 'Day 4' },
-    { key: 'info', label: '原则', num: 'Info' }
+    { key: 'info', label: '饮食', num: 'Info' }
   ];
   tabsEl.innerHTML = days.map(d => {
     const complete = d.key !== 'info' && isDayComplete(d.key) ? 'completed' : '';
@@ -464,8 +753,8 @@ function render() {
   if (currentDay === 'info') {
     main.innerHTML = `
       <div class="day-header">
-        <div class="day-meta">PRINCIPLES / REFERENCE</div>
-        <h2 class="day-title">原则与<em>参考</em></h2>
+        <div class="day-meta">SCHEDULE / NUTRITION / TIPS</div>
+        <h2 class="day-title">饮食与<em>原则</em></h2>
       </div>
       ${PRINCIPLES_HTML}
     `;
@@ -474,6 +763,55 @@ function render() {
 
   const day = PLAN[currentDay];
   const prog = getDayProgress(currentDay);
+  
+  // Build exercises HTML with stretch section divider
+  let firstStretchIndex = day.exercises.findIndex(ex => ex.isStretch);
+  let exercisesHTML = '';
+  
+  day.exercises.forEach((ex, i) => {
+    // Insert section divider before first stretch
+    if (i === firstStretchIndex && firstStretchIndex > 0) {
+      exercisesHTML += `<div class="section-divider">训练后拉伸 · Cool Down</div>`;
+    }
+    
+    let allDone = true;
+    const setBtns = [];
+    for (let s = 0; s < ex.sets; s++) {
+      const key = `${currentDay}_${i}_${s}`;
+      const done = state.sets[key];
+      if (!done) allDone = false;
+      setBtns.push(`<button class="set-btn ${done?'done':''}" onclick="toggleSet('${currentDay}',${i},${s})">${s+1}</button>`);
+    }
+    const actualKey = `${currentDay}_${i}_actual`;
+    const actualVal = state.weights[actualKey] || '';
+    const stretchClass = ex.isStretch ? 'stretch' : '';
+    const labelText = ex.isStretch ? '拉伸方法' : '动作变式 · 难度进阶';
+    const placeholderText = ex.isStretch ? '记录今天的拉伸感受（可选）' : '如：L2 标准引体 × 8 次';
+    
+    exercisesHTML += `
+      <div class="exercise ${stretchClass} ${allDone?'done':''}">
+        <div class="exercise-num">${ex.isStretch ? 'STRETCH' : 'EXERCISE'} ${String(i+1).padStart(2,'0')}</div>
+        <h3 class="exercise-name">${ex.name}</h3>
+        <span class="exercise-muscle">${ex.muscle}</span>
+        <div class="specs">
+          <div class="spec"><div class="spec-label">${ex.isStretch ? '次数 × 时长' : '组数 × 次数'}</div><div class="spec-value">${ex.sets} × ${ex.reps}</div></div>
+          <div class="spec"><div class="spec-label">${ex.isStretch ? '说明' : '组间休息'}</div><div class="spec-value">${ex.rest}</div></div>
+        </div>
+        <div class="variation-row">
+          <div class="variation-label">${labelText}</div>
+          <div class="variation-list">${ex.variation}</div>
+          <div class="actual-row">
+            <span class="actual-label">今天做：</span>
+            <input class="actual-input" type="text" placeholder="${placeholderText}" value="${actualVal}" 
+              oninput="saveActualLevel('${currentDay}',${i},this.value)">
+          </div>
+        </div>
+        <div class="sets">${setBtns.join('')}</div>
+        <div class="notes">${ex.notes}</div>
+      </div>
+    `;
+  });
+
   main.innerHTML = `
     <div class="day-header">
       <div class="day-meta">${currentDay.toUpperCase()} / ${day.focus}</div>
@@ -483,40 +821,7 @@ function render() {
         <span>${prog.done}/${prog.total}</span>
       </div>
     </div>
-    ${day.exercises.map((ex, i) => {
-      let allDone = true;
-      const setBtns = [];
-      for (let s = 0; s < ex.sets; s++) {
-        const key = `${currentDay}_${i}_${s}`;
-        const done = state.sets[key];
-        if (!done) allDone = false;
-        setBtns.push(`<button class="set-btn ${done?'done':''}" onclick="toggleSet('${currentDay}',${i},${s})">${s+1}</button>`);
-      }
-      const actualKey = `${currentDay}_${i}_actual`;
-      const actualVal = state.weights[actualKey] || '';
-      return `
-        <div class="exercise ${allDone?'done':''}">
-          <div class="exercise-num">EXERCISE ${String(i+1).padStart(2,'0')}</div>
-          <h3 class="exercise-name">${ex.name}</h3>
-          <span class="exercise-muscle">${ex.muscle}</span>
-          <div class="specs">
-            <div class="spec"><div class="spec-label">组数 × 次数</div><div class="spec-value">${ex.sets} × ${ex.reps}</div></div>
-            <div class="spec"><div class="spec-label">组间休息</div><div class="spec-value">${ex.rest}</div></div>
-          </div>
-          <div class="variation-row">
-            <div class="variation-label">动作变式 · 难度进阶</div>
-            <div class="variation-list">${ex.variation}</div>
-            <div class="actual-row">
-              <span class="actual-label">今天做：</span>
-              <input class="actual-input" type="text" placeholder="如：L2 标准引体 × 8 次" value="${actualVal}" 
-                oninput="saveActualLevel('${currentDay}',${i},this.value)">
-            </div>
-          </div>
-          <div class="sets">${setBtns.join('')}</div>
-          <div class="notes">${ex.notes}</div>
-        </div>
-      `;
-    }).join('')}
+    ${exercisesHTML}
   `;
 }
 
