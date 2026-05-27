@@ -25,6 +25,8 @@
     --accent-dim: #4ade8028;
     --stretch: #60a5fa;
     --stretch-dim: #60a5fa22;
+    --cardio: #fbbf24;
+    --cardio-dim: #fbbf2422;
     --success: #6ee787;
     --success-dim: #6ee78718;
     --serif: 'Fraunces', Georgia, serif;
@@ -124,13 +126,23 @@
 
   .info-block { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin-bottom: 12px; }
   .info-block.highlight { border-color: var(--accent-dim); }
+  .info-block.cardio-block { border-color: rgba(251, 191, 36, 0.25); }
   .info-title { font-family: var(--serif); font-size: 18px; font-weight: 600; letter-spacing: -0.01em; margin: 0 0 10px; }
   .info-title em { color: var(--accent); font-style: italic; }
+  .info-title em.cardio { color: var(--cardio); }
   .info-block ul { padding-left: 18px; margin: 8px 0; font-size: 14px; line-height: 1.7; color: var(--text-dim); }
   .info-block li { margin-bottom: 4px; }
   .info-block li strong { color: var(--text); font-weight: 600; }
   .info-block p { font-size: 14px; line-height: 1.65; color: var(--text-dim); margin: 8px 0; }
   .info-block p strong { color: var(--text); font-weight: 600; }
+
+  .macro-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-family: var(--mono); font-size: 12px; }
+  .macro-table th, .macro-table td { padding: 8px 6px; text-align: center; border-bottom: 1px solid var(--border); }
+  .macro-table th { color: var(--text-faint); font-weight: 500; font-size: 10px; letter-spacing: 0.05em; text-transform: uppercase; }
+  .macro-table td { color: var(--text-dim); }
+  .macro-table td.label { text-align: left; color: var(--text); font-weight: 600; }
+  .macro-table tr.training { background: rgba(74, 222, 128, 0.05); }
+  .macro-table tr.training td.label { color: var(--accent); }
 
   .timeline { margin: 8px 0; }
   .timeline-item { display: flex; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--border); align-items: flex-start; }
@@ -141,6 +153,7 @@
   .timeline-content .meal-detail { font-size: 12px; line-height: 1.5; color: var(--text-dim); margin-top: 4px; }
   .timeline-item.star .timeline-time { color: #fbbf24; }
   .timeline-item.workout .timeline-time { color: #f87171; }
+  .timeline-item.cardio .timeline-time { color: var(--cardio); }
 
   .meal-block { background: var(--bg-elevated); padding: 12px; border-radius: 8px; margin-bottom: 10px; border-left: 3px solid var(--accent); }
   .meal-block.star { border-left-color: #fbbf24; }
@@ -149,6 +162,9 @@
   .meal-block ul { margin: 4px 0 0; padding-left: 18px; font-size: 13px; }
   .meal-block ul li { margin-bottom: 2px; }
   .meal-block .meal-cal { font-family: var(--mono); font-size: 10px; color: var(--accent); margin-top: 6px; letter-spacing: 0.05em; }
+  .meal-block .day-variant { display: inline-block; font-family: var(--mono); font-size: 10px; padding: 1px 6px; border-radius: 3px; margin: 4px 4px 4px 0; }
+  .meal-block .day-variant.training { color: var(--accent); background: var(--accent-dim); }
+  .meal-block .day-variant.rest { color: var(--text-dim); background: var(--bg-card); }
 
   .footer { padding: 24px 20px 32px; display: flex; gap: 10px; border-top: 1px solid var(--border); margin-top: 30px; }
   .btn { flex: 1; padding: 14px; background: var(--bg-card); border: 1px solid var(--border-strong); border-radius: 10px; color: var(--text-dim); font-family: var(--mono); font-size: 12px; font-weight: 500; cursor: pointer; letter-spacing: 0.05em; transition: all 0.15s; }
@@ -461,16 +477,113 @@ const PLAN = {
 
 const PRINCIPLES_HTML = `
   <div class="info-block highlight">
+    <h2 class="info-title">优化版<em>核心要点</em></h2>
+    <p>这版相比上一版做了 <strong>3 个关键升级</strong>，目标：从 6 个月减脂提前到 <strong style="color:var(--accent)">4.5-5 个月</strong>达成薄肌身材。</p>
+    <ul>
+      <li><strong>1. 加入低强度有氧</strong>：非训练日 30 分钟散步/慢跑，每周多消耗约 3000 kcal</li>
+      <li><strong>2. 碳水循环</strong>：训练日多吃碳水（280g），休息日少吃（180g），减脂更快</li>
+      <li><strong>3. 蛋白质提升</strong>：从 140-160g 提到 <strong>160-180g/天</strong>（每公斤体重 2-2.2g），保肌防止"干瘦"</li>
+    </ul>
+  </div>
+
+  <div class="info-block">
+    <h2 class="info-title">每周<em>训练安排</em></h2>
+    <div class="timeline">
+      <div class="timeline-item workout">
+        <div class="timeline-time">周一</div>
+        <div class="timeline-content"><strong>Day 1 · 推</strong>（训练日）</div>
+      </div>
+      <div class="timeline-item workout">
+        <div class="timeline-time">周二</div>
+        <div class="timeline-content"><strong>Day 2 · 拉</strong>（训练日）</div>
+      </div>
+      <div class="timeline-item cardio">
+        <div class="timeline-time">周三</div>
+        <div class="timeline-content"><strong>休息日 + 有氧</strong> · 起床后散步/慢跑 30-40 分钟</div>
+      </div>
+      <div class="timeline-item workout">
+        <div class="timeline-time">周四</div>
+        <div class="timeline-content"><strong>Day 3 · 腿</strong>（训练日）</div>
+      </div>
+      <div class="timeline-item workout">
+        <div class="timeline-time">周五</div>
+        <div class="timeline-content"><strong>Day 4 · 综合</strong>（训练日）</div>
+      </div>
+      <div class="timeline-item cardio">
+        <div class="timeline-time">周六</div>
+        <div class="timeline-content"><strong>休息日 + 有氧</strong> · 起床后散步/慢跑 30-40 分钟</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">周日</div>
+        <div class="timeline-content"><strong>完全休息</strong> · 拉伸或在家轻度活动即可</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-block cardio-block">
+    <h2 class="info-title">低强度<em class="cardio">有氧</em>怎么做</h2>
+    <p><strong>核心原则：低强度</strong>（说话不喘的程度）。心率维持在 <strong>110-130</strong> 区间。</p>
+    <p><strong>可选项</strong>（任选其一即可）：</p>
+    <ul>
+      <li><strong>快走</strong>：最简单，门槛低，可以听播客/音乐</li>
+      <li><strong>慢跑</strong>：能聊天的配速，6-7 分钟 1 公里</li>
+      <li><strong>跳绳</strong>：节奏慢一些，分组（1 分钟跳 + 30 秒休息）</li>
+      <li><strong>骑车</strong>：户外或室内动感单车的低档位</li>
+    </ul>
+    <p style="margin-top:10px"><strong>⚠️ 三个不要</strong>：</p>
+    <ul>
+      <li><strong>不要在腿日做</strong> — 跟腿训练抢恢复</li>
+      <li><strong>不要高强度（HIIT）</strong> — 减脂期 HIIT 会跟力量训练抢资源，掉肌肉</li>
+      <li><strong>不要超过 45 分钟</strong> — 收益递减，且皮质醇会上升</li>
+    </ul>
+    <p style="margin-top:10px;font-size:12px;color:var(--text-faint)">日常多走路、爬楼梯也算 — 目标日均 8000 步</p>
+  </div>
+
+  <div class="info-block">
+    <h2 class="info-title">碳水<em>循环</em>怎么吃</h2>
+    <p>训练日和休息日的蛋白、脂肪、蔬菜都不变，<strong>只调整碳水（米饭/面食）的量</strong>。</p>
+    <table class="macro-table">
+      <thead>
+        <tr><th>日子</th><th>总热量</th><th>碳水</th><th>蛋白</th><th>脂肪</th></tr>
+      </thead>
+      <tbody>
+        <tr class="training">
+          <td class="label">训练日 ×4</td>
+          <td>2400</td><td>280g</td><td>170g</td><td>70g</td>
+        </tr>
+        <tr>
+          <td class="label">休息日 ×3</td>
+          <td>2100</td><td>180g</td><td>170g</td><td>70g</td>
+        </tr>
+        <tr style="border-top:2px solid var(--border-strong)">
+          <td class="label">周均</td>
+          <td>2270</td><td>237g</td><td>170g</td><td>70g</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:13px"><strong>休息日怎么减碳水</strong>：</p>
+    <ul>
+      <li>工作餐米饭从 150g 减到 100g</li>
+      <li>晚餐主食从 150g 减到 80g</li>
+      <li>蛋白、蔬菜、脂肪份量不变</li>
+    </ul>
+  </div>
+
+  <div class="info-block highlight">
     <h2 class="info-title">你的<em>作息时间表</em></h2>
-    <p style="font-size:12px;color:var(--text-faint);margin-top:0">基于晚班作息（15:00 上班 / 24:00 下班 / 3-4 点睡 / 13-14 点起床）定制</p>
+    <p style="font-size:12px;color:var(--text-faint);margin-top:0">基于晚班作息（15:00 上班 / 24:00 下班 / 3-4 点睡 / 13-14 点起床）</p>
     <div class="timeline">
       <div class="timeline-item">
         <div class="timeline-time">13:30</div>
-        <div class="timeline-content"><strong>起床</strong></div>
+        <div class="timeline-content"><strong>起床</strong> · 晒 15 分钟太阳调节生物钟</div>
       </div>
       <div class="timeline-item star">
         <div class="timeline-time">14:00</div>
         <div class="timeline-content"><strong>第一餐</strong>（相当于早餐）</div>
+      </div>
+      <div class="timeline-item cardio">
+        <div class="timeline-time">14:30</div>
+        <div class="timeline-content"><strong>有氧（仅休息日）</strong> · 散步/慢跑 30 分钟</div>
       </div>
       <div class="timeline-item">
         <div class="timeline-time">15:00</div>
@@ -502,11 +615,11 @@ const PRINCIPLES_HTML = `
       </div>
       <div class="timeline-item">
         <div class="timeline-time">02:30</div>
-        <div class="timeline-content"><strong>睡前小食</strong>（可选）</div>
+        <div class="timeline-content"><strong>睡前小食</strong> · 希腊酸奶</div>
       </div>
       <div class="timeline-item">
         <div class="timeline-time">03:30</div>
-        <div class="timeline-content"><strong>睡觉</strong></div>
+        <div class="timeline-content"><strong>睡觉</strong> · 必须睡满 8 小时</div>
       </div>
     </div>
   </div>
@@ -518,23 +631,29 @@ const PRINCIPLES_HTML = `
       <h4>🌅 第一餐 · 起床后</h4>
       <div class="meal-time">14:00 左右</div>
       <ul>
-        <li>2-3 个全蛋（煮 / 炒 / 煎）</li>
+        <li><strong>3 个全蛋</strong>（煮 / 炒 / 煎）</li>
         <li>燕麦 60g + 牛奶 250ml</li>
         <li>1 个水果（香蕉 / 苹果）</li>
       </ul>
-      <div class="meal-cal">约 500 kcal · 35g 蛋白</div>
+      <div class="meal-cal">约 550 kcal · 40g 蛋白</div>
     </div>
 
     <div class="meal-block star">
       <h4>🍱 工作餐 · 训练前主餐</h4>
       <div class="meal-time">17:30 左右 · 距训练 1.5 小时</div>
+      <span class="day-variant training">训练日</span>
       <ul>
-        <li>主食：米饭 / 全麦面 150g（熟重）</li>
-        <li>蛋白：鸡胸 / 牛肉 / 鱼肉 150g</li>
+        <li>主食：米饭 / 全麦面 <strong>150g</strong>（熟重）</li>
+        <li>蛋白：鸡胸 / 牛肉 / 鱼肉 <strong>180g</strong></li>
         <li>蔬菜 200g+（西兰花、青菜等）</li>
         <li>1 勺好油（橄榄油 / 鱼油）</li>
       </ul>
-      <div class="meal-cal">约 700 kcal · 45g 蛋白</div>
+      <div class="meal-cal">约 750 kcal · 50g 蛋白</div>
+      <span class="day-variant rest" style="margin-top:8px">休息日</span>
+      <ul>
+        <li>主食减为 <strong>100g</strong>，其他不变</li>
+      </ul>
+      <div class="meal-cal">约 600 kcal · 50g 蛋白</div>
       <p style="font-size:11px;color:var(--text-faint);margin:6px 0 0">⚠️ 训练前不能太油腻或太多，否则训练时反胃</p>
     </div>
 
@@ -554,32 +673,39 @@ const PRINCIPLES_HTML = `
         <li><strong>1 勺分离乳清蛋白粉 + 水 或 牛奶</strong></li>
         <li>1 根香蕉（补糖原）</li>
       </ul>
-      <div class="meal-cal">约 200 kcal · 25-30g 蛋白 ⚡ 黄金窗口</div>
+      <div class="meal-cal">约 200 kcal · 30g 蛋白 ⚡ 黄金窗口</div>
     </div>
 
     <div class="meal-block star">
       <h4>🏠 晚餐 · 回家正餐</h4>
       <div class="meal-time">00:30-01:00 · 下班回家后</div>
+      <span class="day-variant training">训练日</span>
       <ul>
-        <li>主食：杂粮饭 / 全麦面 100-150g</li>
-        <li>蛋白：瘦肉 / 鱼肉 / 鸡蛋 150g</li>
+        <li>主食：杂粮饭 / 全麦面 <strong>150g</strong></li>
+        <li>蛋白：瘦肉 / 鱼肉 / 鸡蛋 <strong>180g</strong></li>
         <li>蔬菜 200g+</li>
       </ul>
-      <div class="meal-cal">约 700 kcal · 40g 蛋白</div>
+      <div class="meal-cal">约 750 kcal · 50g 蛋白</div>
+      <span class="day-variant rest" style="margin-top:8px">休息日</span>
+      <ul>
+        <li>主食减为 <strong>80g</strong>，其他不变</li>
+      </ul>
+      <div class="meal-cal">约 600 kcal · 50g 蛋白</div>
       <p style="font-size:11px;color:var(--text-faint);margin:6px 0 0">⚠️ 1:00 前吃完，离睡觉 2 小时以上</p>
     </div>
 
     <div class="meal-block">
-      <h4>🥛 睡前小食（可选）</h4>
+      <h4>🥛 睡前小食</h4>
       <div class="meal-time">02:30 · 睡前 1 小时</div>
       <ul>
-        <li>1 杯纯牛奶 或 希腊酸奶</li>
-        <li>或 2 个煮鸡蛋</li>
+        <li><strong>1 杯希腊酸奶 200g</strong> 或 1 杯纯牛奶</li>
       </ul>
       <div class="meal-cal">约 200 kcal · 20g 慢蛋白 · 助睡眠和夜间恢复</div>
+      <p style="font-size:11px;color:var(--text-faint);margin:6px 0 0">⭐ 升级版：希腊酸奶比普通酸奶蛋白质多 2 倍</p>
     </div>
 
-    <p style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-size:13px"><strong>每日总计</strong>：约 2200-2400 kcal · 140-170g 蛋白质 ✓</p>
+    <p style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-size:13px"><strong>训练日</strong>：约 2400 kcal · 170g 蛋白质 ✓</p>
+    <p style="font-size:13px;margin-top:4px"><strong>休息日</strong>：约 2100 kcal · 170g 蛋白质 ✓</p>
   </div>
 
   <div class="info-block">
@@ -647,6 +773,7 @@ const PRINCIPLES_HTML = `
     <ul>
       <li>训练前热身 <strong>5-8 分钟</strong>（关节绕环 + 几组俯卧撑预热）</li>
       <li>训练后 <strong>必拉伸</strong>（已加入计划末尾，不要跳过）</li>
+      <li>非训练日 <strong>必做低强度有氧</strong> 30-40 分钟</li>
       <li>每天睡足 <strong>8 小时</strong>（你的情况就是 3:30-13:30）</li>
       <li>每周固定时间称重 1 次</li>
       <li>每月拍照 1 次（镜子不会骗你）</li>
@@ -662,6 +789,17 @@ const PRINCIPLES_HTML = `
       <li><strong>避开 22:00 后</strong>：太晚扰民，公园也可能关灯</li>
       <li><strong>下雨天</strong>：可以转室内做俯卧撑/深蹲/平板，单双杠动作跳过即可，下次补</li>
     </ul>
+  </div>
+
+  <div class="info-block highlight">
+    <h2 class="info-title">预期<em>时间表</em></h2>
+    <ul>
+      <li><strong>1 个月</strong>：体重 -2kg，体能明显提升，动作变标准</li>
+      <li><strong>2-3 个月</strong>：肩背宽度显出，体脂降到 22% 左右</li>
+      <li><strong>4-5 个月</strong>：腹肌轮廓出现，体脂 16-17%</li>
+      <li><strong>6 个月</strong>：薄肌身材达成 ✅ 体重 70-72kg / 体脂 13-15%</li>
+    </ul>
+    <p style="margin-top:10px;font-style:italic;color:var(--text-faint)">前提：饮食 + 训练 + 有氧 + 睡眠四件事都不偷懒</p>
   </div>
 `;
 
@@ -764,12 +902,10 @@ function render() {
   const day = PLAN[currentDay];
   const prog = getDayProgress(currentDay);
   
-  // Build exercises HTML with stretch section divider
   let firstStretchIndex = day.exercises.findIndex(ex => ex.isStretch);
   let exercisesHTML = '';
   
   day.exercises.forEach((ex, i) => {
-    // Insert section divider before first stretch
     if (i === firstStretchIndex && firstStretchIndex > 0) {
       exercisesHTML += `<div class="section-divider">训练后拉伸 · Cool Down</div>`;
     }
