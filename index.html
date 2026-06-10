@@ -54,7 +54,37 @@
   .progress-row { display: flex; align-items: center; gap: 12px; font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
   .progress-bar { flex: 1; height: 4px; background: var(--bg-card); border-radius: 2px; overflow: hidden; position: relative; }
   .progress-fill { position: absolute; inset: 0; width: 0%; background: var(--accent); transition: width 0.3s ease-out; border-radius: 2px; }
+  :root {
+    --warmup: #fb923c;
+    --warmup-dim: #fb923c22;
+  }
   .section-divider { display: flex; align-items: center; gap: 12px; margin: 24px 0 14px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--stretch); }
+  .section-divider.warmup-divider { color: var(--warmup); }
+  .warmup-block { background: var(--bg-card); border: 1px solid rgba(251,146,60,0.25); border-radius: 14px; padding: 18px 16px; margin-bottom: 16px; }
+  .warmup-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; cursor: pointer; user-select: none; }
+  .warmup-icon { width: 32px; height: 32px; border-radius: 8px; background: var(--warmup-dim); border: 1px solid rgba(251,146,60,0.3); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .warmup-title-wrap { flex: 1; }
+  .warmup-tag { font-family: var(--mono); font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--warmup); margin-bottom: 3px; }
+  .warmup-title { font-family: var(--serif); font-size: 18px; font-weight: 500; letter-spacing: -0.01em; font-variation-settings: 'opsz' 72; }
+  .warmup-toggle { font-family: var(--mono); font-size: 11px; color: var(--warmup); padding: 6px 12px; background: var(--warmup-dim); border-radius: 6px; border: 1px solid rgba(251,146,60,0.4); flex-shrink: 0; transition: all 0.15s; font-weight: 600; letter-spacing: 0.05em; }
+  .warmup-body { display: none; }
+  .warmup-block.open .warmup-body { display: block; }
+  .warmup-block.open .warmup-toggle { color: var(--warmup); border-color: rgba(251,146,60,0.4); }
+  .warmup-note { font-size: 12px; line-height: 1.55; color: var(--text-dim); margin: 0 0 14px; padding: 10px 12px; background: var(--bg-elevated); border-radius: 8px; border-left: 3px solid var(--warmup); }
+  .warmup-steps { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+  .warmup-step { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; background: var(--bg-elevated); border-radius: 10px; border: 1px solid var(--border); cursor: pointer; transition: all 0.15s; }
+  .warmup-step.checked { border-color: rgba(251,146,60,0.4); background: var(--warmup-dim); }
+  .warmup-step-num { width: 22px; height: 22px; border-radius: 6px; background: var(--bg-card); border: 1px solid var(--border-strong); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 11px; font-weight: 600; color: var(--text-dim); flex-shrink: 0; margin-top: 1px; transition: all 0.15s; }
+  .warmup-step.checked .warmup-step-num { background: var(--warmup); border-color: var(--warmup); color: #1a0800; }
+  .warmup-step-content { flex: 1; }
+  .warmup-step-name { font-family: var(--sans); font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 3px; line-height: 1.3; }
+  .warmup-step.checked .warmup-step-name { color: var(--text-dim); }
+  .warmup-step-detail { font-family: var(--mono); font-size: 11px; color: var(--warmup); margin-bottom: 3px; }
+  .warmup-step.checked .warmup-step-detail { color: var(--text-faint); }
+  .warmup-step-tip { font-size: 11px; color: var(--text-faint); line-height: 1.4; font-style: italic; }
+  .warmup-progress { display: flex; align-items: center; gap: 10px; margin-top: 14px; font-family: var(--mono); font-size: 10px; color: var(--text-faint); }
+  .warmup-progress-bar { flex: 1; height: 3px; background: var(--bg-elevated); border-radius: 2px; overflow: hidden; }
+  .warmup-progress-fill { height: 100%; background: var(--warmup); border-radius: 2px; transition: width 0.3s ease-out; }
   .section-divider::before, .section-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
   .exercise { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 18px 16px; margin-bottom: 12px; transition: border-color 0.2s; }
   .exercise.done { border-color: var(--success-dim); background: linear-gradient(180deg, var(--success-dim) 0%, var(--bg-card) 100%); }
@@ -119,6 +149,60 @@
 </div>
 <script>
 // 体型：178cm / 72kg，薄肌目标，避开斜方肌
+
+const WARMUP = {
+  day1: {
+    title: '胸 & 核心专项热身',
+    note: '今天主练胸肌和核心，热身重点：激活胸大肌、打开肩关节活动度、预热肩袖肌群，避免胸椎僵硬导致卧推受伤。全程约 7-9 分钟。',
+    steps: [
+      { name: '原地快走 / 开合跳', detail: '3 分钟', tip: '让全身血液循环起来，体温升高后肌肉弹性更好' },
+      { name: '肩关节绕环', detail: '前绕 10次 + 后绕 10次 × 双侧', tip: '慢速大幅度画圆，感受肩膀整个关节被打开，卧推前必做' },
+      { name: '胸椎猫牛式（四肢跪地）', detail: '10 次缓慢呼吸', tip: '吸气时塌腰抬头，呼气时拱背低头。改善胸椎伸展，让卧推轨迹更顺畅' },
+      { name: '毛毛虫爬行', detail: '5 次往返', tip: '站立前弯→手走到俯卧撑位→原路返回，激活核心与肩胛稳定肌群' },
+      { name: '徒手俯卧撑（预热）', detail: '2 组 × 10次，慢速', tip: '专注感受胸肌发力，不是做爆发力。帮助建立神经募集和胸肌心理连接' },
+      { name: '空手绳索/手臂画圆夹胸', detail: '双臂在胸前画圆 15次 × 2组', tip: '模拟飞鸟动作，激活胸大肌内侧收缩感，卧推时更容易"找到"肌肉' },
+      { name: '空杆 / 极轻哑铃预热组', detail: '哑铃 5kg 平板卧推 × 15次', tip: '正式重量的30-40%做1-2组，感受动作轨迹，不是训练，是校准' },
+    ]
+  },
+  day2: {
+    title: '背 & 背阔专项热身',
+    note: '今天主练背阔肌，热身重点：打开肩关节，激活背阔「启动感」，放松可能紧张的斜方肌/颈肩，让引体向上时能真正用背不用肩。约 8 分钟。',
+    steps: [
+      { name: '原地高抬腿 / 开合跳', detail: '2-3 分钟', tip: '升温，让整个上半身血流充分' },
+      { name: '肩关节绕环', detail: '前绕 10次 + 后绕 10次 × 双侧', tip: '背日同样要先打开肩关节，引体中肩膀僵硬会强迫斜方肌代偿' },
+      { name: '胸椎旋转（坐姿）', detail: '每侧 10次 × 2组', tip: '坐凳子，双手抱头，只转动上背部。改善胸椎灵活性，让背部拉力传导更顺畅' },
+      { name: '弹力带/轻绳索直臂下拉（激活）', detail: '极轻重量 × 15次 × 2组', tip: '★ 最重要的热身步骤：用极轻重量感受背阔"把手臂往下拉"的感觉，建立正确神经募集模式' },
+      { name: '肩胛骨激活：Y-T-W 动作', detail: '各 10次（俯身或趴凳子）', tip: 'Y形：双臂斜向上45°；T形：水平展开；W形：肘屈90°往后夹。专门激活肩胛稳定肌，防止肩撞击' },
+      { name: '辅助引体 / 悬挂减重3-5次', detail: '1-2 组，轻松挂住感受下沉肩胛', tip: '挂上单杠，先主动"把肩膀往下沉"而不是往上耸，感受背阔被激活的时机' },
+    ]
+  },
+  day3: {
+    title: '腿部专项热身',
+    note: '腿日是全身训练强度最高的，热身绝不能省。重点：激活臀肌（防止深蹲膝盖内扣），打开髋关节活动度，唤醒本体感觉。约 10 分钟。',
+    steps: [
+      { name: '原地踏步 / 快走 / 椭圆机', detail: '3-5 分钟', tip: '腿部大肌肉群需要充分升温，不能少于3分钟有氧热身' },
+      { name: '髋关节绕环（站立）', detail: '每侧 10圈 × 前后方向', tip: '手扶支撑物，单腿站立，抬膝划大圆。充分打开髋臼活动度，深蹲底部不会卡死' },
+      { name: '深蹲下蹲保持（深蹲小憩）', detail: '蹲到底保持 60秒（可扶支撑物）', tip: '这是检验髋踝灵活度的最直接方式，感觉哪里卡就在哪里多放松' },
+      { name: '弓步走 + 胸椎旋转', detail: '每侧 8步', tip: '迈出弓步后，同侧手扶膝，身体向弓步腿方向旋转。综合激活髋屈肌、臀肌和胸椎' },
+      { name: '臀桥（激活臀肌）', detail: '15次 × 2组，顶部挤2秒', tip: '★ 深蹲前必做。臀肌不激活就会用腰代偿，是腰痛的主要来源' },
+      { name: '迷你弹力带侧走或蚌式开合', detail: '每侧 15次（无弹力带可做徒手）', tip: '激活臀中肌，防止深蹲时膝盖向内塌陷（膝内扣是最常见的腿日受伤原因）' },
+      { name: '空杆 / 徒手深蹲（预热组）', detail: '2组 × 10次，蹲慢站慢', tip: '确认动作感觉正确后，再上轻重量做1组（约正式重量30-40%），才开始正式训练' },
+    ]
+  },
+  day4: {
+    title: '肩 & 手臂专项热身',
+    note: '肩日热身最关键：充分激活肩袖（旋转肌群），防止肩推中出现夹挤综合症（肩峰撞击），同时放松容易紧张的斜方肌。约 7 分钟。',
+    steps: [
+      { name: '手臂交叉摆动（吊臂热身）', detail: '双臂反复交叉 + 展开 30次', tip: '像扇翅膀一样，让整个肩带区域血流充分，是最简单有效的肩部热身' },
+      { name: '肩关节绕环（前绕+后绕）', detail: '前后各 10次 × 双侧', tip: '慢速大圆，感受肩关节被充分润滑。肩膀有弹响可适当多做几组直到消失' },
+      { name: '墙角胸椎伸展（面朝墙角站立）', detail: '保持 30秒 × 2组', tip: '双手扶墙两侧，身体向墙角前倾，打开前胸。胸椎伸展后肩推轨迹更顺，不容易产生撞击' },
+      { name: '肩袖激活：外旋弹力带（或徒手）', detail: '每侧 15次 × 2组', tip: '肘贴体侧屈90°，手向外旋。专门激活旋转肌群，是防止肩伤最重要的一个动作' },
+      { name: '侧平举激活（极轻）', detail: '哑铃 2kg 或空手 × 20次 × 2组', tip: '专注感受中束三角肌启动的感觉。重量越轻越能感受，这是今天最重要主项的预热' },
+      { name: '空杆 / 极轻哑铃肩推预热', detail: '哑铃 4-5kg × 12次 × 1-2组', tip: '感受整个动作轨迹，确认肩胛稳定、不耸肩再增重' },
+    ]
+  }
+};
+
 const PLAN = {
   day1: {
     title: '胸 + 核心',
@@ -355,8 +439,8 @@ let state = loadState();
 let currentDay = state.currentDay || 'day1';
 
 function loadState() {
-  try { const s = localStorage.getItem('slimMuscleState'); return s ? JSON.parse(s) : { sets: {}, weights: {}, currentDay: 'day1' }; }
-  catch (e) { return { sets: {}, weights: {}, currentDay: 'day1' }; }
+  try { const s = localStorage.getItem('slimMuscleState'); return s ? JSON.parse(s) : { sets: {}, weights: {}, warmup: {}, warmupOpen: {}, currentDay: 'day1' }; }
+  catch (e) { return { sets: {}, weights: {}, warmup: {}, warmupOpen: {}, currentDay: 'day1' }; }
 }
 function saveState() { try { localStorage.setItem('slimMuscleState', JSON.stringify(state)); } catch (e) {} }
 function toggleSet(dayKey, exIdx, setIdx) {
@@ -364,16 +448,26 @@ function toggleSet(dayKey, exIdx, setIdx) {
   state.sets[key] = !state.sets[key];
   saveState(); render();
 }
+function toggleWarmupStep(dayKey, stepIdx) {
+  const key = `${dayKey}_w${stepIdx}`;
+  state.warmup[key] = !state.warmup[key];
+  saveState(); render();
+}
+function toggleWarmupOpen(dayKey) {
+  state.warmupOpen[dayKey] = !state.warmupOpen[dayKey];
+  saveState(); render();
+}
 function saveActualWeight(dayKey, exIdx, value) { state.weights[`${dayKey}_${exIdx}_actual`] = value; saveState(); }
 function switchDay(day) { currentDay = day; state.currentDay = day; saveState(); render(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
 function resetDay() {
   if (!confirm('重置本日所有打勾记录？')) return;
   Object.keys(state.sets).forEach(k => { if (k.startsWith(currentDay + '_')) delete state.sets[k]; });
+  if (state.warmup) Object.keys(state.warmup).forEach(k => { if (k.startsWith(currentDay + '_')) delete state.warmup[k]; });
   saveState(); render();
 }
 function resetAll() {
   if (!confirm('清空全部数据？')) return;
-  state = { sets: {}, weights: {}, currentDay: 'day1' }; saveState(); currentDay = 'day1'; render();
+  state = { sets: {}, weights: {}, warmup: {}, warmupOpen: {}, currentDay: 'day1' }; saveState(); currentDay = 'day1'; render();
 }
 function isDayComplete(dayKey) {
   if (dayKey === 'info') return false;
@@ -415,6 +509,45 @@ function render() {
   const prog = getDayProgress(currentDay);
   let firstStretchIndex = day.exercises.findIndex(ex => ex.isStretch);
   let exercisesHTML = '';
+
+  // Warmup block
+  const wu = WARMUP[currentDay];
+  const isOpen = !state.warmupOpen || state.warmupOpen[currentDay] !== false; // default open
+  const warmupDoneCount = wu.steps.filter((_, i) => state.warmup && state.warmup[`${currentDay}_w${i}`]).length;
+  const warmupPct = Math.round(warmupDoneCount / wu.steps.length * 100);
+  const warmupStepsHTML = wu.steps.map((step, i) => {
+    const checked = state.warmup && state.warmup[`${currentDay}_w${i}`];
+    return `<li class="warmup-step ${checked ? 'checked' : ''}" onclick="toggleWarmupStep('${currentDay}',${i})">
+      <div class="warmup-step-num">${checked ? '✓' : i+1}</div>
+      <div class="warmup-step-content">
+        <div class="warmup-step-name">${step.name}</div>
+        <div class="warmup-step-detail">${step.detail}</div>
+        <div class="warmup-step-tip">${step.tip}</div>
+      </div>
+    </li>`;
+  }).join('');
+
+  const warmupHTML = `
+    <div class="warmup-block ${isOpen ? 'open' : ''}">
+      <div class="warmup-header" onclick="toggleWarmupOpen('${currentDay}')">
+        <div class="warmup-icon">🔥</div>
+        <div class="warmup-title-wrap">
+          <div class="warmup-tag">Warm-Up · 训练前热身</div>
+          <div class="warmup-title">${wu.title}</div>
+        </div>
+        <div class="warmup-toggle">${isOpen ? '收起' : '展开'}</div>
+      </div>
+      <div class="warmup-body">
+        <div class="warmup-note">${wu.note}</div>
+        <ul class="warmup-steps">${warmupStepsHTML}</ul>
+        <div class="warmup-progress">
+          <div class="warmup-progress-bar"><div class="warmup-progress-fill" style="width:${warmupPct}%"></div></div>
+          <span>${warmupDoneCount}/${wu.steps.length} 完成</span>
+        </div>
+      </div>
+    </div>
+    <div class="section-divider">正式训练 · Main Work</div>
+  `;
 
   day.exercises.forEach((ex, i) => {
     if (i === firstStretchIndex && firstStretchIndex > 0) exercisesHTML += `<div class="section-divider">训练后拉伸 · Cool Down</div>`;
@@ -463,6 +596,7 @@ function render() {
         <span>${prog.done}/${prog.total}</span>
       </div>
     </div>
+    ${warmupHTML}
     ${exercisesHTML}
   `;
 }
