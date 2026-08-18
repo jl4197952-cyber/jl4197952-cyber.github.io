@@ -402,10 +402,10 @@ const PLAN = {
         weight: '自重 或 杠铃 20-25kg',
         sets: 3, reps: '15-20', rest: '45秒',
         notes: '小腿恢复快，适合一周两次刺激' },
-      { name: '俄罗斯转体', muscle: '腹斜肌 · 核心稳定',
-        weight: '哑铃 5kg 或 徒手',
-        sets: 3, reps: '20次（左右各算1）', rest: '45秒',
-        notes: '核心稳定性是多方向移动不崩形的基础。身体后倾45°，双脚离地效果更好' },
+      { name: '死虫式（Dead Bug）', muscle: '深层核心 · 抗旋转稳定',
+        weight: '自重（动作控制优先）',
+        sets: 3, reps: '8-10次 / 边（慢速）', rest: '45秒',
+        notes: '仰卧，双臂伸向天花板，双腿抬起膝盖屈90°。呼气时对角线伸展对侧手脚靠近地面（不触地），腰背全程贴紧地面，吸气回收换边。★ 替换俄罗斯转体——有重量的旋转会让斜肌肥大变粗腰，死虫式激活深层核心不增加腰围，多方向移动的稳定性来自深层核心而非斜肌体积' },
     ],
     stretches: [
       { name: '坐姿腿后侧拉伸', tag: '拉伸 · 股二头',
@@ -566,7 +566,7 @@ function resetAll() {
 }
 
 function isDayComplete(dayKey) {
-  if (dayKey === 'info') return false;
+  if (dayKey === 'info' || dayKey === 'cardio') return false;
   const day = PLAN[dayKey];
   const allItems = [
     ...day.warmup.map((_,i) => ({sec:'warmup',i,sets:1})),
@@ -701,10 +701,11 @@ function render() {
     {key:'lowerA',label:'下肢A',num:'Day 2'},
     {key:'upperB',label:'上肢B',num:'Day 3'},
     {key:'lowerB',label:'下肢B',num:'Day 4'},
+    {key:'cardio',label:'心肺',num:'❤️'},
     {key:'info',label:'原则',num:'Info'},
   ];
   document.getElementById('dayTabs').innerHTML = days.map(d => {
-    const complete = d.key !== 'info' && isDayComplete(d.key) ? 'completed' : '';
+    const complete = d.key !== 'info' && d.key !== 'cardio' && isDayComplete(d.key) ? 'completed' : '';
     const active = currentDay === d.key ? 'active' : '';
     return `<div class="day-tab ${active} ${complete}" onclick="switchDay('${d.key}')"><span class="day-num">${d.num}</span>${d.label}</div>`;
   }).join('');
@@ -712,6 +713,10 @@ function render() {
   const main = document.getElementById('main');
   if (currentDay === 'info') {
     main.innerHTML = `<div class="day-header"><div class="day-meta">PRINCIPLES / WEIGHTS / TIPS</div><h2 class="day-title">原则与<em>参考</em></h2></div>${PRINCIPLES_HTML}`;
+    return;
+  }
+  if (currentDay === 'cardio') {
+    main.innerHTML = buildCardioPage();
     return;
   }
 
@@ -739,6 +744,171 @@ function render() {
     <div class="section-divider stretch">训练后拉伸 · Cool Down</div>
     ${stretchHTML}
   `;
+}
+
+// ── 心肺训练数据 ──────────────────────────────────────────
+const CARDIO_PHASES = [
+  {
+    phase: 1, label: '第一阶段', weeks: '第 1-4 周', goal: '适应期 · 让心肺系统习惯力量训练后继续工作',
+    color: '#60a5fa', colorDim: '#60a5fa22',
+    heartRate: '目标心率 130-150次/分 · 感觉"有点喘但还能说话"',
+    timing: '只在上肢B（周五）训练完之后做，不占独立时间，约10分钟',
+    sessions: [
+      {
+        id: 'p1_jumprope', name: '跳绳间歇', tag: '上肢B后（周五）做一次',
+        detail: '30秒跳绳 / 30秒慢走 × 10轮，总时长约10分钟',
+        tip: '不会跳绳 → 用原地高抬腿代替，效果相近。双脚离地不要太高，靠脚踝发力而不是屈膝。健身房有跳绳就在旁边空地跳，没有就用高抬腿',
+        sets: 10, setLabel: '轮'
+      },
+    ],
+    note: '★ 这阶段只做一次，不追求强度。周六打球也是心肺训练，加上周三球，一周已经有3次心肺刺激，不需要多加'
+  },
+  {
+    phase: 2, label: '第二阶段', weeks: '第 5-8 周', goal: '建立期 · 引入器械间歇，提高心肺输出上限',
+    color: '#a78bfa', colorDim: '#a78bfa22',
+    heartRate: '目标心率 150-165次/分 · 明显喘，说话断断续续',
+    timing: '上肢B（周五）训练完之后，时长约12分钟',
+    sessions: [
+      {
+        id: 'p2_jumprope', name: '跳绳HIIT（加量版）', tag: '上肢B后（周五），先做这个',
+        detail: '40秒快速跳 / 20秒慢走 × 8轮，约8分钟',
+        tip: '比第一阶段多了10秒发力时间、少了10秒休息，心率会明显更高。跳的时候加快节奏，不要随意放慢',
+        sets: 8, setLabel: '轮'
+      },
+      {
+        id: 'p2_rowing', name: '划船机间歇', tag: '跳绳之后接着做',
+        detail: '40秒全力划 / 20秒慢划 × 5轮，约5分钟',
+        tip: '健身房划船机（Rowing Machine）。拉的时候腿先蹬、然后躯干后倾、最后手臂拉到腹部，不是只用手臂划。全身发力，心率上升很快。上肢B后接划船机，腿不是主角，更容易做到位',
+        sets: 5, setLabel: '轮'
+      },
+    ],
+    note: '★ 跳绳+划船机加起来约13分钟。划船机是最接近羽毛球上肢发力的器械心肺训练，比跑步对已经训练的腿更友好'
+  },
+  {
+    phase: 3, label: '第三阶段', weeks: '第 9-12 周', goal: '专项期 · 模拟比赛节奏，强化快速恢复能力',
+    color: '#f97362', colorDim: '#f9736222',
+    heartRate: '目标心率 165-180次/分 · 很喘，只能说单词',
+    timing: '上肢B（周五）训练完之后，时长约15分钟',
+    sessions: [
+      {
+        id: 'p3_jumprope', name: '跳绳HIIT（高强度版）', tag: '上肢B后（周五），先做这个',
+        detail: '40秒快速跳 / 15秒休息 × 8轮，约5分钟',
+        tip: '休息只有15秒，心率来不及完全恢复就要进下一轮，这就是模拟比赛持续回合的感觉。做不到全程维持节奏没关系，能坚持就好',
+        sets: 8, setLabel: '轮'
+      },
+      {
+        id: 'p3_rowing', name: '划船机HIIT（高强度版）', tag: '跳绳之后接着做',
+        detail: '40秒全力划 / 15秒慢划 × 6轮，约6分钟',
+        tip: '第三阶段把划船机的休息也缩短到15秒，心率会一直保持在高位。做完这个上场打球，第三局体能明显比以前好',
+        sets: 6, setLabel: '轮'
+      },
+      {
+        id: 'p3_cooldown', name: '慢走降心率', tag: '最后结束',
+        detail: '慢走3-5分钟，让心率从高位降到120以下再停',
+        tip: '高强度训练后突然停下来会头晕，必须慢走降心率再离开健身房',
+        sets: 1, setLabel: '次'
+      },
+    ],
+    note: '★ 做到这一阶段，打球时第三局还能保持步伐速度，说明心肺已经达到明显提升'
+  }
+];
+
+function getCardioKey(phaseIdx, sessionId, setIdx) {
+  return `cardio_p${phaseIdx}_${sessionId}_${setIdx}`;
+}
+function isCardioDone(phaseIdx, sessionId, setIdx) {
+  return !!(state.exercises && state.exercises[getCardioKey(phaseIdx, sessionId, setIdx)]);
+}
+function toggleCardio(phaseIdx, sessionId, setIdx) {
+  if (!state.exercises) state.exercises = {};
+  const k = getCardioKey(phaseIdx, sessionId, setIdx);
+  state.exercises[k] = !state.exercises[k];
+  saveState(); buildCardioPage_render();
+}
+function buildCardioPage_render() {
+  const main = document.getElementById('main');
+  if (main) main.innerHTML = buildCardioPage();
+}
+
+function buildCardioPage() {
+  const weeklySchedule = `
+    <div class="info-block" style="border-color:var(--accent-dim);margin-bottom:14px">
+      <h2 class="info-title">每周<em>安排节奏（已优化）</em></h2>
+      <table class="weight-table">
+        <tr><th>星期</th><th>内容</th><th>心肺来源</th></tr>
+        <tr><td>周一</td><td>上肢A</td><td style="color:var(--text-faint)">不加（留恢复）</td></tr>
+        <tr><td>周二</td><td>下肢A</td><td style="color:var(--text-faint)">不加（腿重）</td></tr>
+        <tr><td>周三</td><td>羽毛球 1小时</td><td style="color:var(--success)">已是HIIT ✓</td></tr>
+        <tr><td>周四</td><td>下肢B ← 从周五移过来</td><td style="color:var(--text-faint)">不加（腿重）</td></tr>
+        <tr><td>周五</td><td>上肢B + 心肺收尾</td><td style="color:var(--accent)">跳绳+划船机</td></tr>
+        <tr><td>周六</td><td>羽毛球 1小时</td><td style="color:var(--success)">已是HIIT ✓</td></tr>
+        <tr><td>周日</td><td>完全休息</td><td style="color:var(--text-faint)">——</td></tr>
+      </table>
+      <div style="background:var(--bg-elevated);border-radius:8px;padding:12px;margin-top:10px;font-size:12px;line-height:1.7;color:var(--text-dim)">
+        <div style="color:var(--accent);font-family:var(--mono);font-size:9px;letter-spacing:0.1em;margin-bottom:6px">为什么这样排</div>
+        下肢B从周五移到<strong style="color:var(--text)">周四</strong>，让腿在周六打球前有两天恢复（周四→周五→周六），解决了之前"练完腿第二天打球恢复不了"的问题。<br>
+        心肺收尾从两次减到<strong style="color:var(--text)">只在周五上肢B后做一次</strong>，周五是上肢日腿相对轻松，做完跳绳和划船机对周六打球影响最小。<br>
+        配合周三和周六两次羽毛球，一周总计<strong style="color:var(--text)">3次心肺刺激</strong>，足够提升体能，不会过载。
+      </div>
+    </div>`;
+
+  const phases = CARDIO_PHASES.map((ph, pi) => {
+    const sessions = ph.sessions.map(sess => {
+      const btns = Array.from({length: sess.sets}, (_,si) => {
+        const done = isCardioDone(pi, sess.id, si);
+        return `<button class="set-btn ${done?'done':''}" onclick="toggleCardio(${pi},'${sess.id}',${si})">${si+1}</button>`;
+      }).join('');
+      return `
+        <div class="exercise" style="border-color:${ph.colorDim};background:linear-gradient(180deg,${ph.colorDim} 0%,var(--bg-card) 100%);margin-bottom:10px">
+          <div class="exercise-num" style="color:${ph.color}">${sess.tag}</div>
+          <h3 class="exercise-name">${sess.name}</h3>
+          <div class="info-row" style="border-left-color:${ph.color};margin-bottom:12px">
+            <div class="info-row-label">具体做法</div>
+            <div class="info-row-value" style="font-weight:600">${sess.detail}</div>
+            <div style="font-size:12px;color:var(--text-dim);margin-top:6px;line-height:1.6">${sess.tip}</div>
+          </div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--text-faint);margin-bottom:8px">打卡完成的${sess.setLabel}数</div>
+          <div class="sets">${btns}</div>
+        </div>`;
+    }).join('');
+
+    return `
+      <div class="info-block" style="border-color:${ph.colorDim};margin-bottom:16px">
+        <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:4px">
+          <h2 class="info-title" style="color:${ph.color};margin:0">${ph.label}</h2>
+          <span style="font-family:var(--mono);font-size:10px;color:${ph.color};letter-spacing:0.1em">${ph.weeks}</span>
+        </div>
+        <p style="font-size:13px;color:var(--text-dim);margin:0 0 12px;line-height:1.5">${ph.goal}</p>
+        <div style="background:var(--bg-elevated);border-radius:8px;padding:10px 12px;margin-bottom:14px">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-faint);letter-spacing:0.1em;margin-bottom:4px">心率目标 / 时机</div>
+          <div style="font-family:var(--mono);font-size:12px;color:${ph.color};font-weight:600;line-height:1.6">${ph.heartRate}</div>
+          <div style="font-size:12px;color:var(--text-dim);margin-top:4px">${ph.timing}</div>
+        </div>
+        ${sessions}
+        <div style="font-size:12px;color:var(--text-dim);font-style:italic;padding:10px;background:var(--bg-elevated);border-radius:8px;line-height:1.6">${ph.note}</div>
+      </div>`;
+  }).join('');
+
+  const progress = `
+    <div class="info-block" style="margin-bottom:14px">
+      <h2 class="info-title">怎么知道<em>在进步</em></h2>
+      <ul style="margin:8px 0;padding-left:18px;font-size:14px;line-height:1.8;color:var(--text-dim)">
+        <li><strong style="color:var(--text)">停下来60秒后心跳恢复速度</strong>——同样运动量，停下来后心率下降得越来越快，说明心肺在改善</li>
+        <li><strong style="color:var(--text)">打球第三局的步伐</strong>——第三局还能保持快速移动，而不是靠惯性撑，这是最直接的体能提升信号</li>
+        <li><strong style="color:var(--text)">同样强度下的主观感受</strong>——之前打完一局很喘，现在只是有点喘，说明阈值在提高</li>
+      </ul>
+      <p style="font-size:12px;color:var(--text-faint);margin:8px 0 0">不需要心率表，靠主观感受就能判断。12周完成后可以从第二阶段的强度重新循环，每次循环都会在新的基础上进步。</p>
+    </div>`;
+
+  return `
+    <div class="day-header">
+      <div class="day-meta">CARDIO / 心肺专项 · 12周渐进计划</div>
+      <h2 class="day-title">心肺<em>训练</em></h2>
+      <p class="day-sub">配合羽毛球 · 上肢日训练后收尾 · 循序渐进不过载</p>
+    </div>
+    ${weeklySchedule}
+    ${phases}
+    ${progress}`;
 }
 
 render();
